@@ -30,7 +30,7 @@ public:
      */
     [[nodiscard]] auto GetValue() const -> double;
 
-    [[nodiscard]] auto ToString() const -> std::string final;
+    [[nodiscard]] auto ToString() const -> std::string override;
 
     static auto Specialize(const Expression& other) -> std::unique_ptr<Real>;
     static auto Specialize(const Expression& other, tf::Subflow& subflow) -> std::unique_ptr<Real>;
