@@ -5,11 +5,11 @@
 #ifndef OASIS_EULER_HPP
 #define OASIS_EULER_HPP
 
-#include "Real.hpp"
+#include "Constant.hpp"
 #include <cmath>
 
 namespace Oasis {
-class EulerNum : Real {
+class EulerNum : Constant {
 public:
     EulerNum() = default;
 
