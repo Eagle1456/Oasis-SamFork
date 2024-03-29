@@ -6,10 +6,11 @@
 #define OASIS_EULER_HPP
 
 #include "Constant.hpp"
+#include "Expression.hpp"
 #include <cmath>
 
 namespace Oasis {
-class EulerNum : Constant {
+class EulerNum : public Constant {
 public:
     EulerNum() = default;
 
@@ -25,6 +26,15 @@ public:
     [[nodiscard]] auto ToString() const -> std::string override
     {
         return "e";
+    }
+
+    static auto Specialize(const Expression& other) -> std::unique_ptr<EulerNum>
+    {
+        return other.Is<EulerNum>() ? std::make_unique<EulerNum>(dynamic_cast<const EulerNum&>(other)) : nullptr;
+    }
+    static auto Specialize(const Expression& other, tf::Subflow& subflow) -> std::unique_ptr<EulerNum>
+    {
+        return other.Is<EulerNum>() ? std::make_unique<EulerNum>(dynamic_cast<const EulerNum&>(other)) : nullptr;
     }
 };
 } // Oasis

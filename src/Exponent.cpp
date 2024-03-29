@@ -3,6 +3,7 @@
 //
 
 #include "Oasis/Exponent.hpp"
+#include "Oasis/EulerNum.hpp"
 #include "Oasis/Imaginary.hpp"
 #include "Oasis/Log.hpp"
 #include "Oasis/Multiply.hpp"
@@ -42,6 +43,9 @@ auto Exponent<Expression>::Simplify() const -> std::unique_ptr<Expression>
         const Real& base = realCase->GetMostSigOp();
         const Real& power = realCase->GetLeastSigOp();
 
+        if (auto eulerCase = EulerNum::Specialize(base); eulerCase != nullptr) {
+            return std::make_unique<Real>(exp(power.GetValue()));
+        }
         return std::make_unique<Real>(pow(base.GetValue(), power.GetValue()));
     }
 

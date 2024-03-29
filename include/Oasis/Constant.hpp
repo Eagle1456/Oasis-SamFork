@@ -9,15 +9,15 @@
 #include <cmath>
 
 namespace Oasis {
-class Constant : Real {
+class Constant : public Real {
 public:
     /**
      * Gets the value of the real number.
      * @return The value of the real number.
      */
-    [[nodiscard]] virtual auto GetValue() const -> double;
+    [[nodiscard]] virtual auto GetValue() const -> double = 0;
 
-    [[nodiscard]] virtual auto ToString() const -> std::string override;
+    [[nodiscard]] virtual auto ToString() const -> std::string override = 0;
 };
 } // Oasis
 
