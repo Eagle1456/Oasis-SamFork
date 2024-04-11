@@ -23,6 +23,12 @@ auto Exponent<Expression>::Simplify() const -> std::unique_ptr<Expression>
 
     Exponent simplifiedExponent { *simplifiedBase, *simplifiedPower };
 
+    if (auto eulerCase = Exponent<EulerNum, Real>::Specialize(simplifiedExponent); eulerCase != nullptr) {
+        const Real& power = eulerCase->GetLeastSigOp();
+
+        return std::make_unique<Real>(exp(power.GetValue()));
+    }
+
     if (auto zeroCase = Exponent<Expression, Real>::Specialize(simplifiedExponent); zeroCase != nullptr) {
         const Real& power = zeroCase->GetLeastSigOp();
 
@@ -43,9 +49,6 @@ auto Exponent<Expression>::Simplify() const -> std::unique_ptr<Expression>
         const Real& base = realCase->GetMostSigOp();
         const Real& power = realCase->GetLeastSigOp();
 
-        if (auto eulerCase = EulerNum::Specialize(base); eulerCase != nullptr) {
-            return std::make_unique<Real>(exp(power.GetValue()));
-        }
         return std::make_unique<Real>(pow(base.GetValue(), power.GetValue()));
     }
 

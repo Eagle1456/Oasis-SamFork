@@ -5,6 +5,7 @@
 #include "catch2/catch_test_macros.hpp"
 
 #include "Oasis/Add.hpp"
+#include "Oasis/EulerNum.hpp"
 #include "Oasis/Exponent.hpp"
 #include "Oasis/Imaginary.hpp"
 #include "Oasis/Multiply.hpp"
@@ -479,4 +480,22 @@ TEST_CASE("Imaginary Exponent Rule", "[Imaginary][Exponent]")
                                   Oasis::Real { 2.0 }, Oasis::Exponent { Oasis::Variable { "x" }, Oasis::Real { 0.5 } } },
         Oasis::Imaginary {} }
                 .Equals(*simplifiedimg));
+}
+
+TEST_CASE("Euler Numbers", "[Exponent][Euler]")
+{
+    Oasis::Exponent e1 { Oasis::EulerNum {}, Oasis::Real { 1.0 } };
+    Oasis::Exponent e0 { Oasis::EulerNum {}, Oasis::Real { 0.0 } };
+    Oasis::Exponent ex { Oasis::EulerNum {}, Oasis::Variable { "x" } };
+    Oasis::Exponent e2 { Oasis::EulerNum {}, Oasis::Real { 2.0 } };
+
+    auto simplifiede1 = e1.Simplify();
+    auto simplifiede0 = e0.Simplify();
+    auto simplifiedex = ex.Simplify();
+    auto simplifiede2 = e2.Simplify();
+
+    REQUIRE(Oasis::Real { std::exp(1.0) }.Equals(*simplifiede1));
+    REQUIRE(Oasis::Real { 1 }.Equals(*simplifiede0));
+    REQUIRE(Oasis::Exponent { Oasis::EulerNum {}, Oasis::Variable { "x" } }.Equals(*simplifiedex));
+    REQUIRE(Oasis::Real { std::exp(2.0) }.Equals(*simplifiede2));
 }

@@ -5,14 +5,23 @@
 #ifndef OASIS_EULER_HPP
 #define OASIS_EULER_HPP
 
-#include "Constant.hpp"
-#include "Expression.hpp"
+#include "LeafExpression.hpp"
 #include <cmath>
 
 namespace Oasis {
-class EulerNum : public Constant {
+
+class EulerNum : public LeafExpression<EulerNum> {
 public:
     EulerNum() = default;
+    EulerNum(const EulerNum& other) = default;
+
+    EXPRESSION_TYPE(EulerNum)
+    EXPRESSION_CATEGORY(0)
+
+    [[nodiscard]] auto Equals(const Expression& other) const -> bool
+    {
+        return other.Is<EulerNum>();
+    }
 
     /**
      * Gets the value of the real number.
@@ -36,6 +45,8 @@ public:
     {
         return other.Is<EulerNum>() ? std::make_unique<EulerNum>(dynamic_cast<const EulerNum&>(other)) : nullptr;
     }
+
+    auto operator=(const EulerNum& other) -> EulerNum& = default;
 };
 } // Oasis
 
